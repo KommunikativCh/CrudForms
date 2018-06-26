@@ -1,5 +1,5 @@
 {
-	"name" : "sandstorm/crudforms",
+	"name" : "kommunikativch/crudformsx",
 	"description" : "Create easy CRUD forms for Domain Models in Flow and Neos CMS",
 	"type" : "neos-package",
 	"keywords" : [
@@ -28,7 +28,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"Sandstorm\\CrudForms\\" : "Classes"
+			"KommunikativCh\\CrudForms\\" : "Classes"
 		}
 	},
 	"conflict" : {
