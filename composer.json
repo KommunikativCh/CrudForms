@@ -28,7 +28,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"KommunikativCh\\CrudForms\\" : "Classes"
+			"Sandstorm\\CrudForms\\" : "Classes"
 		}
 	},
 	"conflict" : {
