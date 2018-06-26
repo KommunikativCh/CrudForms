@@ -80,19 +80,27 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
                 }
             }
         }
-
         $generatorAnnotation = $this->reflectionService->getClassAnnotation($model, FieldGenerator::class);
         if ($generatorAnnotation !== NULL) {
             $generator = $this->objectManager->get($generatorAnnotation->className);
             if (!($generator instanceof FieldGeneratorInterface)) {
                 throw new \Exception('TODO: generator must implement FieldGeneratorInterface, ' . get_class($generator) . ' given.');
             }
-            foreach ($generator->generate($context) as $propertyName => $annotation) {
+            if ($context != null && method_exists ( $context , 'setDefaultFields' )) {
+                $context->setDefaultFields($fields);
+            }
+            $generatedFields = $generator->generate($context);
+            if ($generatedFields != null && !empty($generatedFields) && $context != null && method_exists ( $context , 'setDefaultFields' )) {
+                foreach ($fields as $propertyName => $annotation) {
+                    $fields[$propertyName]['visble'] = FALSE;
+                }
+            }
+            foreach ($generatedFields as $propertyName => $annotation) {
                 $fields[$propertyName] = get_object_vars($annotation);
                 $this->addDefaultsToFields($fields, $propertyName);
             }
         }
-
+        
         return (new PositionalArraySorter($fields))->toArray();
     }
 
