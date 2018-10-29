@@ -49,7 +49,12 @@ trait BaseControllerTrait
         $this->arguments['object']->setValidator($this->validatorResolver->getBaseValidatorConjunction($this->getModelType(), array('Default', 'Controller')));
         $this->mvcPropertyMappingConfigurationService->initializePropertyMappingConfigurationFromRequest($this->request, $this->arguments);
     }
-
+    protected function registerObjectParameterWithModelType(string $modelType)
+    {    
+        $this->arguments->addNewArgument('object', $modelType);
+        $this->arguments['object']->setValidator($this->validatorResolver->getBaseValidatorConjunction($modelType, array('Default', 'Controller')));
+        $this->mvcPropertyMappingConfigurationService->initializePropertyMappingConfigurationFromRequest($this->request, $this->arguments);
+    }
     /**
      * The method "getModelType" must be implemented in subclasses, returning the class-name of the objects which shall be edited.
      *

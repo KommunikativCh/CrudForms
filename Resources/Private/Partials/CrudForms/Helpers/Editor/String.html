@@ -1,1 +1,10 @@
-<f:form.textfield property="{field.property}" id="{field.property}" readonly="{f:if(condition:field.readonly, then: 'readonly', else: '')}" class="{formFieldClass}"/>
+<f:if condition="{field.readonly}">
+    <f:then>
+		<f:form.textfield id="{field.property}" value="{value}" readonly="{readonly}" class="{formFieldClass}"></f:form.textfield>
+    </f:then>
+    <f:else>
+		<f:form.textfield property="{field.property}" id="{field.property}" class="{formFieldClass}"/>
+    </f:else>
+</f:if>
+
+

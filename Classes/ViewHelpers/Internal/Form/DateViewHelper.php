@@ -6,8 +6,9 @@ use Neos\Utility\ObjectAccess;
 use Neos\Utility\TypeHandling;
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
 use Neos\FluidAdaptor\ViewHelpers\Form\TextfieldViewHelper;
+use  Neos\FluidAdaptor\ViewHelpers\Form\AbstractFormFieldViewHelper;
 
-class DateViewHelper extends TextfieldViewHelper
+class DateViewHelper extends AbstractFormFieldViewHelper
 {
 
     /**
@@ -18,9 +19,11 @@ class DateViewHelper extends TextfieldViewHelper
      */
     public function initializeArguments()
     {
+        
         parent::initializeArguments();
         // HINT: we use a format compatible with the input type Date
         $this->registerArgument('format', 'string', 'A Format string compatible with the DateTimeConverter.', FALSE, 'MULTIPLE');
+        $this->registerUniversalTagAttributes();
     }
 
     /**
