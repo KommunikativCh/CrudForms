@@ -52,6 +52,10 @@ Abstract class AbstractFormField
     
     public $collectionElementFormFields;
     
+    public $cssClassesFrontEnd;
+    
+    public $cssClassesBackEnd;
+    
     public function property(String $property) {
         $this->property = $property;
         return $this;
@@ -126,6 +130,14 @@ Abstract class AbstractFormField
     }
     public function required($required) {
         $this->required = $required;
+        return $this;
+    }
+    public function cssClassesFrontEnd($cssClassesFrontEnd) {
+        $this->cssClassesFrontEnd = $cssClassesFrontEnd;
+        return $this;
+    }
+    public function cssClassesBackEnd($cssClassesBackEnd) {
+        $this->cssClassesBackEnd = $cssClassesBackEnd;
         return $this;
     }
 }
