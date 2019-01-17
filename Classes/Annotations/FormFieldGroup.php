@@ -21,4 +21,6 @@ final class FormFieldGroup
     public $hasFields = FALSE;
     public $fields = [];
     public $groups = [];
+    public $cssClassesFrontEnd;    
+    public $cssClassesBackEnd;
 }
