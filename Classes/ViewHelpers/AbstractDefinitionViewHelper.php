@@ -78,7 +78,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
             if (isset($fields[$propertyName]['property'])) {
                 $fields[$propertyName]['property'] = $propertyName.".".$fields[$propertyName]['property'];
             }
-            $this->addDefaultsToFields($fields, $propertyName);
+            $this->addDefaultsToFields($fields, $propertyName, $model);
             
             if ($fields[$propertyName]['editor'] === 'class') {
                 $classFieldAnnotation = $this->reflectionService->getPropertyAnnotation($model, $propertyName, 'Doctrine\ORM\Mapping\OneToOne');
@@ -94,7 +94,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
                 if ($methodAnnotation) {
                     $propertyName = lcfirst(substr($methodName, 3));
                     $fields[$propertyName] = get_object_vars($methodAnnotation);
-                    $this->addDefaultsToFields($fields, $propertyName);
+                    $this->addDefaultsToFields($fields, $propertyName, $model);
                 }
             }
         }
@@ -115,7 +115,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
             }
             foreach ($generatedFields as $propertyName => $generatedField) {
                 $fields[$propertyName] = get_object_vars($generatedField);
-                $this->addDefaultsToFields($fields, $propertyName);
+                $this->addDefaultsToFields($fields, $propertyName, $model);
             }
         }
         return (new PositionalArraySorter($fields))->toArray();
@@ -161,7 +161,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
             if (isset($fields[$classProperty.'.'.$propertyName]['property'])) {
                 $fields[$classProperty.'.'.$propertyName]['property'] = $classProperty.'.'.$propertyName.".".$fields[$classProperty.'.'.$propertyName]['property'];
             }
-            $this->addDefaultsToFields($fields, $classProperty.'.'.$propertyName);
+            $this->addDefaultsToFields($fields, $classProperty.'.'.$propertyName, $model);
             if (!isset($fields[$classProperty.'.'.$propertyName]['group'])) {
                 $fields[$classProperty.'.'.$propertyName]['group'] = $fields[$classProperty]['group'];
             }
@@ -235,7 +235,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
         return array_keys($annotations);
     }
 
-    private function addDefaultsToFields(&$fields, $propertyName)
+    private function addDefaultsToFields(&$fields, $propertyName, $model = null)
     {
          if (!isset($fields[$propertyName]['property'])) {
              $fields[$propertyName]['property'] = $propertyName;
@@ -263,6 +263,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
         if (!array_key_exists('editor', $fields[$propertyName])) {
             $fields[$propertyName]['editor'] = '';
         }
+        $fields[$propertyName]['model'] = ltrim($model, '\\');
     }
     private function addDefaultsToGroups(&$groups, $groupName)
     {
