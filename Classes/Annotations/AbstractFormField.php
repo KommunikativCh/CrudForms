@@ -55,7 +55,9 @@ Abstract class AbstractFormField
     public $cssClassesFrontEnd;
     
     public $cssClassesBackEnd;
-    
+
+    public $withoutLabel = false;
+
     public function property(String $property) {
         $this->property = $property;
         return $this;
@@ -140,4 +142,9 @@ Abstract class AbstractFormField
         $this->cssClassesBackEnd = $cssClassesBackEnd;
         return $this;
     }
+    public function withoutLabel($withoutLabel) {
+        $this->withoutLabel = $withoutLabel;
+        return $this;
+    }
+
 }
