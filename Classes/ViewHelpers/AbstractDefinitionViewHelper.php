@@ -12,6 +12,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Reflection\ReflectionService;
 use Neos\Utility\PositionalArraySorter;
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
+use KommunikativCh\DataManager\Entity\Annotations\EntityFormField;
 
 abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
 {
@@ -71,7 +72,12 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
                 $formFieldAnnotations = $this->reflectionService->getPropertyAnnotations($model, $propertyName, FormFieldCollectionElement::class);
                 foreach ($formFieldAnnotations as $annotation) {
                     $annotationArray = get_object_vars($annotation);
-                    $fields[$propertyName]['collectionElementFormFields'][$annotationArray['property']] = $annotation;
+                    $formFieldClass = EntityFormField::class;
+                    $collectionElementFormField = new $formFieldClass();
+                    foreach ($annotationArray as $key => $value) {
+                        $collectionElementFormField->$key = $value;
+                    }
+                    $fields[$propertyName]['collectionElementFormFields'][$annotationArray['property']] = $collectionElementFormField;
                 }
             }
             
@@ -263,7 +269,9 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
         if (!array_key_exists('editor', $fields[$propertyName])) {
             $fields[$propertyName]['editor'] = '';
         }
-        $fields[$propertyName]['model'] = ltrim($model, '\\');
+        if (!isset($fields[$propertyName]['model'])) {
+            $fields[$propertyName]['model'] = ltrim($model, '\\');
+        }
     }
     private function addDefaultsToGroups(&$groups, $groupName)
     {

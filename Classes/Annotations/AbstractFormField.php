@@ -16,6 +16,7 @@ Abstract class AbstractFormField
     
     
     public $property;
+    public $model;
     public $group;
     public $label;
     public $editor;
@@ -60,6 +61,10 @@ Abstract class AbstractFormField
 
     public function property(String $property) {
         $this->property = $property;
+        return $this;
+    }
+    public function model(String $model) {
+        $this->model = $model;
         return $this;
     }
     public function entityPropertyProperty(String $property) {
