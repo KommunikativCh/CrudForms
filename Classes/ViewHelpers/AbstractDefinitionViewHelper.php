@@ -80,12 +80,12 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
                     $fields[$propertyName]['collectionElementFormFields'][$annotationArray['property']] = $collectionElementFormField;
                 }
             }
-            
+
             if (isset($fields[$propertyName]['property'])) {
                 $fields[$propertyName]['property'] = $propertyName.".".$fields[$propertyName]['property'];
             }
             $this->addDefaultsToFields($fields, $propertyName, $model);
-            
+
             if ($fields[$propertyName]['editor'] === 'class') {
                 $classFieldAnnotation = $this->reflectionService->getPropertyAnnotation($model, $propertyName, 'Doctrine\ORM\Mapping\OneToOne');
                 $this->getClassPropertyProperties($classFieldAnnotation->targetEntity, $context, $fields, $propertyName);
@@ -126,7 +126,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
         }
         return (new PositionalArraySorter($fields))->toArray();
     }
-    
+
     /**
      * @param string $model
      * @param object $context an arbitrary object which is available in all actions and nested functionality
@@ -145,25 +145,25 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
         if ($propertyNames === NULL) {
             throw new MissingModelTypeException('No class schema could be resolved for model ' . $model . '.', 1452715183);
         }
-        
+
         foreach ($propertyNames as $propertyName) {
             if ($propertyName === 'Persistence_Object_Identifier') {
                 continue;
             }
-            
+
             $invalidAnnotations = array_intersect($this->getAnnotationClassNames($model, $propertyName), $this->ignorePropertiesWithAnnotations);
             if (count($invalidAnnotations) > 0) {
                 continue;
             }
-            
+
             /* @var $formFieldAnnotation FormField */
             $formFieldAnnotation = $this->reflectionService->getPropertyAnnotation($model, $propertyName, FormField::class);
-            
+
             $fields[$classProperty.'.'.$propertyName] = [];
             if ($formFieldAnnotation) {
                 $fields[$classProperty.'.'.$propertyName] = get_object_vars($formFieldAnnotation);
             }
-            
+
             if (isset($fields[$classProperty.'.'.$propertyName]['property'])) {
                 $fields[$classProperty.'.'.$propertyName]['property'] = $classProperty.'.'.$propertyName.".".$fields[$classProperty.'.'.$propertyName]['property'];
             }
@@ -171,16 +171,16 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
             if (!isset($fields[$classProperty.'.'.$propertyName]['group'])) {
                 $fields[$classProperty.'.'.$propertyName]['group'] = $fields[$classProperty]['group'];
             }
-            
+
             if ($fields[$classProperty.'.'.$propertyName]['editor'] === 'class') {
                 $classFieldAnnotation = $this->reflectionService->getPropertyAnnotation($model, $propertyName, 'Doctrine\ORM\Mapping\OneToOne');
                 $this->getClassPropertyProperties($classFieldAnnotation->targetEntity, $context, $fields, $classProperty.'.'.$propertyName);
                 unset($fields[$classProperty.'.'.$propertyName]);
             }
         }
-        
+
     }
-    
+
     /**
      * @param string $model
      * @param object $context an arbitrary object which is available in all actions and nested functionality
@@ -193,7 +193,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
         if ($model === NULL) {
             throw new MissingModelTypeException('The "model" property has not been specified as parameter to the ViewHelper ' . get_class($this) . '.', 1452715128);
         }
-        
+
         /* @var $formFieldAnnotation FormField */
         $formFieldGroupAnnotations = $this->reflectionService->getClassAnnotations($model, FormFieldGroup::class);
         $parentClasses = array();
@@ -202,12 +202,12 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
             $parentClasses[] = $parent;
             $class = $parent;
         }
-        
+
         foreach ($parentClasses as $parentClasse) {
             $formFieldGroupAnnotationParent = $this->reflectionService->getClassAnnotations($parentClasse, FormFieldGroup::class);
             $formFieldGroupAnnotations = array_merge($formFieldGroupAnnotations,$formFieldGroupAnnotationParent);
         }
-        
+
         $groups = [];
         foreach ($formFieldGroupAnnotations as $formFieldGroupAnnotation) {
             $group = $formFieldGroupAnnotation->group;
@@ -231,10 +231,10 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
                 $this->addDefaultsToGroups($groups, $group);
             }
         }
-        
+
         return (new PositionalArraySorter($groups))->toArray();
     }
-    
+
     private function getAnnotationClassNames($model, $property)
     {
         $annotations = $this->reflectionService->getPropertyAnnotations($model, $property);
@@ -246,7 +246,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
          if (!isset($fields[$propertyName]['property'])) {
              $fields[$propertyName]['property'] = $propertyName;
          }
-        
+
         if (!isset($fields[$propertyName]['label'])) {
             $fields[$propertyName]['label'] = $propertyName;
         }
@@ -254,11 +254,11 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
         if (!array_key_exists('visible', $fields[$propertyName])) {
             $fields[$propertyName]['visible'] = TRUE;
         }
-        
+
         if (!array_key_exists('readonlyOnEdit', $fields[$propertyName])) {
             $fields[$propertyName]['readonlyOnEdit'] = FALSE;
         }
-        
+
         if (!array_key_exists('visibleInOverview', $fields[$propertyName])) {
             $fields[$propertyName]['visibleInOverview'] = TRUE;
         }
@@ -272,25 +272,28 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
         if (!isset($fields[$propertyName]['model'])) {
             $fields[$propertyName]['model'] = ltrim($model, '\\');
         }
+        if (!array_key_exists('hidden', $fields[$propertyName])) {
+            $fields[$propertyName]['hidden'] = FALSE;
+        }
     }
     private function addDefaultsToGroups(&$groups, $groupName)
     {
         if (!isset($groups[$groupName]['group'])) {
             $groups[$groupName]['group'] = $propertyName;
         }
-        
+
         if (!isset($groups[$groupName]['label'])) {
             $groups[$groupName]['label'] = $groupName;
         }
-        
+
         if (!array_key_exists('visible', $groups[$groupName])) {
             $groups[$groupName]['visible'] = TRUE;
         }
-        
+
         if (!array_key_exists('visibleInOverview', $groups[$groupName])) {
             $groups[$groupName]['visibleInOverview'] = TRUE;
         }
-        
+
         if (!array_key_exists('visibleInForm', $groups[$groupName])) {
             $groups[$groupName]['visibleInForm'] = TRUE;
         }

@@ -6,22 +6,22 @@ namespace Sandstorm\CrudForms\Annotations;
  */
 Abstract class AbstractFormField
 {
-    
+
     /**
      */
     public function __construct()
     {
         $this->collectionElementFormFields = array();
     }
-    
-    
+
+
     public $property;
     public $model;
     public $group;
     public $label;
     public $editor;
     public $editorFormat;
-    
+
     public $position; // position string as understood by positional array sorter
 
     public $visible = TRUE;
@@ -35,29 +35,31 @@ Abstract class AbstractFormField
     public $options;
 
     public $readonly = FALSE;
-    
+
     public $readonlyOnEdit = FALSE;
-    
+
     // generic "configuration" block to be used for specific templates
     public $configuration;
-    
+
     public $collectionElement;
-    
+
     public $collectionElementParentProperty;
-    
+
     public $rootModulPath;
-    
+
     public $collectionElementModulPath;
-    
+
     public $collectionElementParentModulPath;
-    
+
     public $collectionElementFormFields;
-    
+
     public $cssClassesFrontEnd;
-    
+
     public $cssClassesBackEnd;
 
     public $withoutLabel = false;
+
+    public $hidden = false;
 
     public function property(String $property) {
         $this->property = $property;
@@ -149,6 +151,10 @@ Abstract class AbstractFormField
     }
     public function withoutLabel($withoutLabel) {
         $this->withoutLabel = $withoutLabel;
+        return $this;
+    }
+    public function hidden($hidden) {
+        $this->hidden = $hidden;
         return $this;
     }
 
