@@ -16,11 +16,23 @@ class ActionExistsViewHelper extends AbstractViewHelper
     protected $reflectionService;
 
     /**
-     * @param string $action
+     * Initialize arguments
+     *
+     * @return void
+     * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception
      */
-    public function render($action)
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('action', 'string', 'Action', true);
+    }
+
+
+    /**
+     */
+    public function render()
     {
         $controllerObjectName = $this->controllerContext->getRequest()->getControllerObjectName();
-        return $this->reflectionService->hasMethod($controllerObjectName, $action . 'Action');
+        return $this->reflectionService->hasMethod($controllerObjectName, $this->arguments['action'] . 'Action');
     }
 }
