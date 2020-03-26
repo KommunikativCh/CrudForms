@@ -11,13 +11,23 @@ use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
  */
 class ObjectAccessViewHelper extends AbstractViewHelper
 {
+    /**
+     * Initialize arguments
+     *
+     * @return void
+     * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('property', 'string', 'Property', true);
+    }
 
     /**
-     * @param string $property
      */
-    public function render($property)
+    public function render()
     {
         $object = $this->renderChildren();
-        return ObjectAccess::getPropertyPath($object, $property);
+        return ObjectAccess::getPropertyPath($object, $this->arguments['property']);
     }
 }

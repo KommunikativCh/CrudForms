@@ -8,10 +8,22 @@ class FindObjectsForListingViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param string $repository Name of repository to use
+     * Initialize arguments
+     *
+     * @return void
+     * @throws \Neos\FluidAdaptor\Core\ViewHelper\Exception
      */
-    public function render($repository)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('repository', 'string', 'Repository', true);
+    }
+
+    /**
+     */
+    public function render()
+    {
+        $repository = $this->arguments['repository'];
         if (strpos($repository, '::') === false) {
             $repositoryName = $repository;
             $methodName = 'findAll';

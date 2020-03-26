@@ -178,7 +178,6 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
                 unset($fields[$classProperty.'.'.$propertyName]);
             }
         }
-
     }
 
     /**
@@ -279,7 +278,7 @@ abstract class AbstractDefinitionViewHelper extends AbstractViewHelper
     private function addDefaultsToGroups(&$groups, $groupName)
     {
         if (!isset($groups[$groupName]['group'])) {
-            $groups[$groupName]['group'] = $propertyName;
+            $groups[$groupName]['group'] = $groupName;
         }
 
         if (!isset($groups[$groupName]['label'])) {

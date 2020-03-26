@@ -19,7 +19,7 @@ class DateViewHelper extends AbstractFormFieldViewHelper
      */
     public function initializeArguments()
     {
-        
+
         parent::initializeArguments();
         // HINT: we use a format compatible with the input type Date
         $this->registerArgument('format', 'string', 'A Format string compatible with the DateTimeConverter.', FALSE, 'MULTIPLE');
@@ -45,7 +45,7 @@ class DateViewHelper extends AbstractFormFieldViewHelper
     }
 
 
-    protected function getNameWithoutPrefix()
+    protected function getNameWithoutPrefix(): string
     {
         return parent::getNameWithoutPrefix() . '[date]';
     }

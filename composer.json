@@ -24,7 +24,7 @@
 		"source" : "https://github.com/sandstorm/CrudForms"
 	},
 	"require" : {
-		"neos/flow" : "~5.0"
+		"neos/flow" : "~6.1"
 	},
 	"autoload" : {
 		"psr-4" : {
